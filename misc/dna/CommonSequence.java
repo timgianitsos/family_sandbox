@@ -50,6 +50,4 @@ class CommonSequence {
 		}
 		scan.close();
 	}
-	
-
 }
