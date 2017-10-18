@@ -28,10 +28,19 @@ NO
 */
 
 import java.util.*;
+import java.io.*;
 
 class CodonAppearance {
+
+	static final int CODON_LEN = 3;
+	static final char[] NUCLEOTIDES = {'A', 'C', 'G', 'T'};
+
 	public static void main(String[] args) {
-		Scanner scan = new Scanner(System.in);
+		run(System.in, System.out);
+	}
+
+	private static void run(InputStream in, PrintStream out) {
+		Scanner scan = new Scanner(in);
 		int testCases = scan.nextInt();
 		scan.nextLine();
 		for (int testCase = 0; testCase < testCases; testCase++) {
@@ -43,7 +52,6 @@ class CodonAppearance {
 				String currentStr = dna.substring(i, i + 3);
 				Integer currentFreq = strToCount.get(currentStr);
 				strToCount.put(currentStr, currentFreq != null ? currentFreq + 1 : 1);
-
 			}
 			int counter = 0;
 			for (Map.Entry<String, Integer> entry : strToCount.entrySet()) {
@@ -52,14 +60,11 @@ class CodonAppearance {
 				}
 			}
 			if (counter > 0) {
-				System.out.println("YES");
+				out.println("YES");
 			}
 			else {
-				System.out.println("NO");
+				out.println("NO");
 			}
 		}
-	}
-
-
-
+	}	
 }
