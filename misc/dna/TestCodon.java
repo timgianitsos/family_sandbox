@@ -4,12 +4,13 @@ import java.lang.reflect.Method;
 import java.io.*;
 
 /*
-javac -cp "./:../../" TestCodon.java && java -cp "./:../../" TestCodon 
+Run the following to test:
+javac -cp "./:../../" TestCodon.java && java -cp "./:../../" TestCodon
 */
 
 class TestCodon {
 	
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws NoSuchMethodException {
 		System.out.println();
 
 		//Write tests here

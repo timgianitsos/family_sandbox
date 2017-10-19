@@ -26,11 +26,24 @@ public class TestHarness {
 	public static final String YELLOW = "\033[0;33m";
 	public static final String RESET = "\033[0m";
 
-	public static void test(String input, String expectedOutput, Method method) throws UnsupportedEncodingException {
+	public static void test(String input, String expectedOutput, Method method) {
+		if (input == null || expectedOutput == null || method == null) {
+			throw new IllegalArgumentException("Parameters cannot be null");
+		}
+
 		method.setAccessible(true);
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		InputStream in = new ByteArrayInputStream(input.getBytes(ENCODING));
-		PrintStream out = new PrintStream(stream, true, ENCODING.name());
+
+		InputStream in;
+		PrintStream out;
+		try {
+			in = new ByteArrayInputStream(input.getBytes(ENCODING));
+			out = new PrintStream(stream, true, ENCODING.name());
+		}
+		catch (UnsupportedEncodingException e) {
+			in = new ByteArrayInputStream(input.getBytes());
+			out = new PrintStream(stream, true);
+		}
 
 		double elapsedTime;
 		boolean exceptionThrown;
@@ -46,7 +59,9 @@ public class TestHarness {
 			exceptionThrown = true;
 		}
 
-		String result = stream.toString(ENCODING.name());
+		String result;
+		try {result = stream.toString(ENCODING.name());}
+		catch (UnsupportedEncodingException e) {result = stream.toString();}
 		System.out.println("Test " + testNo + " elapsed time: " + elapsedTime + " seconds");
 
 		if (!expectedOutput.equals(result) || exceptionThrown) {
