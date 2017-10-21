@@ -9,11 +9,12 @@ javac -cp "./:../../" TestCodon.java && java -cp "./:../../" TestCodon
 */
 
 class TestCodon {
-	
+
 	public static void main(String[] args) throws NoSuchMethodException {
 		System.out.println();
 
 		//Write tests here
+		//input and output are always string objects
 		{
 			String input = "1\n5\nCATCATCATCATCAT\n";
 			String expectedOutput = "YES\n";

@@ -48,8 +48,8 @@ class CodonAppearance {
 			scan.nextLine();
 			String dna = scan.nextLine();
 			Map<String, Integer> strToCount = new HashMap<>();
-			for (int i = 0; i < dna.length() - 2; i++) {
-				String currentStr = dna.substring(i, i + 3);
+			for (int i = 0; i < dna.length() - (CODON_LEN - 1); i++) {
+				String currentStr = dna.substring(i, i + CODON_LEN);
 				Integer currentFreq = strToCount.get(currentStr);
 				strToCount.put(currentStr, currentFreq != null ? currentFreq + 1 : 1);
 			}
