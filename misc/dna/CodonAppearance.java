@@ -48,24 +48,17 @@ class CodonAppearance {
 			scan.nextLine();
 			String dna = scan.nextLine();
 			Map<String, Integer> strToCount = new HashMap<>();
+			boolean appearsN = false;
 			for (int i = 0; i < dna.length() - (CODON_LEN - 1); i++) {
 				String currentStr = dna.substring(i, i + CODON_LEN);
-				Integer currentFreq = strToCount.get(currentStr);
-				strToCount.put(currentStr, currentFreq != null ? currentFreq + 1 : 1);
-			}
-			boolean appearsN = false;
-			for (Map.Entry<String, Integer> entry : strToCount.entrySet()) {
-				if (entry.getValue() >= n) {
+				int newFreq = strToCount.getOrDefault(currentStr, 0) + 1;
+				if (newFreq >= n) {
 					appearsN = true;
 					break;
 				}
+				strToCount.put(currentStr, newFreq);
 			}
-			if (appearsN) {
-				out.println("YES");
-			}
-			else {
-				out.println("NO");
-			}
+			out.println(appearsN ? "YES" : "NO");
 		}
 	}	
 }
