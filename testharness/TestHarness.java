@@ -16,10 +16,10 @@ import java.nio.charset.StandardCharsets;
  */
 public class TestHarness {
 
-	private static final Charset ENCODING = StandardCharsets.UTF_8;
-
 	private static int testNo = 0;
 	private static int failedTests = 0;
+
+	private static final Charset ENCODING = StandardCharsets.UTF_8;
 
 	public static final String RED = "\033[0;31m";
 	public static final String GREEN = "\033[0;32m";
@@ -31,6 +31,7 @@ public class TestHarness {
 			throw new IllegalArgumentException("Parameters cannot be null");
 		}
 
+		testNo++;
 		method.setAccessible(true);
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
@@ -76,7 +77,6 @@ public class TestHarness {
 
 		System.out.println(YELLOW + "--------------------------------" + RESET);
 		out.close();
-		testNo++;
 	}
 
 	public static int getTestsRun() {
