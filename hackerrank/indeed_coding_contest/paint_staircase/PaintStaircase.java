@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.io.*;
 class PaintStaircase {
@@ -8,7 +7,7 @@ class PaintStaircase {
 
 	private static void run(InputStream in, PrintStream out) {
 		Scanner scan = new Scanner(in);
-		int w = scan.nextInt();
+		int w = scan.nextInt(); 	
 		int h = scan.nextInt();
 
 		int middle = (h * 2) * w;

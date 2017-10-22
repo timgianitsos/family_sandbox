@@ -53,13 +53,14 @@ class CodonAppearance {
 				Integer currentFreq = strToCount.get(currentStr);
 				strToCount.put(currentStr, currentFreq != null ? currentFreq + 1 : 1);
 			}
-			int counter = 0;
+			boolean appearsN = false;
 			for (Map.Entry<String, Integer> entry : strToCount.entrySet()) {
 				if (entry.getValue() >= n) {
-					counter++;
+					appearsN = true;
+					break;
 				}
 			}
-			if (counter > 0) {
+			if (appearsN) {
 				out.println("YES");
 			}
 			else {
