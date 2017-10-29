@@ -26,6 +26,9 @@ import java.util.*;
 
 class CommonSequence {
 
+	static final int CODON_LEN = 3;
+	static final char[] NUCLEOTIDES = {'A', 'C', 'G', 'T'};
+
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		int testCases = scan.nextInt();
@@ -35,8 +38,8 @@ class CommonSequence {
 			scan.nextLine();
 			String dna = scan.nextLine();
 			Map<String, Integer> strToCounter = new TreeMap<>();
-			for (int i = 0; i < dna.length() - 2; i++) {
-				String currentStr = dna.substring(i, i + 3);
+			for (int i = 0; i < dna.length() - (CODON_LEN - 1); i++) {
+				String currentStr = dna.substring(i, i + CODON_LEN);
 				Integer currentFreq = strToCounter.get(currentStr);
 				strToCounter.put(currentStr, (currentFreq != null ? currentFreq + 1 : 1));
 			}

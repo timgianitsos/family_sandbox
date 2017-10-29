@@ -43,7 +43,7 @@ class CodonAppearance {
 		Scanner scan = new Scanner(in);
 		int testCases = scan.nextInt();
 		scan.nextLine();
-		nextCase: for (int testCase = 0; testCase < testCases; testCase++) {
+		for (int testCase = 0; testCase < testCases; testCase++) {
 			int n = scan.nextInt();
 			scan.nextLine();
 			String dna = scan.nextLine();
@@ -51,11 +51,11 @@ class CodonAppearance {
 			//pigeon hole principle
 			// if ((dna.length() - CODON_LEN) / (int)Math.pow(NUCLEOTIDES.length, CODON_LEN) + 1 >= n) {
 			// 	out.println("YES");
-			// 	continue nextCase;
+			// 	continue;
 			// }
 			// if (n > dna.length() - (CODON_LEN - 1)) {
 			// 	out.println("NO");
-			// 	continue nextCase;
+			// 	continue;
 			// }
 
 			Map<String, Integer> strToCount = new HashMap<>();
