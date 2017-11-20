@@ -63,7 +63,7 @@ public class TestHarness {
 		String result;
 		try {result = stream.toString(ENCODING.name());}
 		catch (UnsupportedEncodingException e) {result = stream.toString();}
-		System.out.println("Test " + testNo + " elapsed time: " + elapsedTime + " seconds");
+		System.out.println("Test " + testNo + ", " + method.getName() + "() elapsed time: " + elapsedTime + " seconds");
 
 		if (!expectedOutput.equals(result) || exceptionThrown) {
 			failedTests++;
@@ -85,5 +85,15 @@ public class TestHarness {
 
 	public static int getFailedTests() {
 		return failedTests;
+	}
+
+	public static void printResults() {
+		System.out.print("\n" + YELLOW + "Ran " + testNo + " test(s): ");
+		System.out.println((failedTests == 0 ? "Success!": "Failed " + failedTests) + RESET);
+	}
+
+	public static void reset() {
+		testNo = 0;
+		failedTests = 0;
 	}
 }
