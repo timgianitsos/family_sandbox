@@ -21,7 +21,7 @@ class GreatestCommonDivisor {
 		run(System.in, System.out);
 	}
 
-	static String implementation = "gcdEuclidIterativeSlow";
+	static String implementation = "gcdEuclidRecursiveSlow";
 
 	private static void run(InputStream in, PrintStream out) {
 		Scanner scan = new Scanner(in);
@@ -97,7 +97,7 @@ class GreatestCommonDivisor {
 	}
 
 	private static int gcdEuclidRecursiveSlow(int a, int b) {
-		return 0;
+		return (a != b ? gcdEuclidRecursiveSlow(Math.min(a, b), Math.max(a, b) - Math.min(a, b)) : a);
 	}
 
 	private static int gcdEuclidIterativeFast(int a, int b) {
