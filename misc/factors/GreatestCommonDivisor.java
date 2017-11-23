@@ -21,7 +21,7 @@ class GreatestCommonDivisor {
 		run(System.in, System.out);
 	}
 
-	static String implementation = "gcdEuclidIterativeFast";
+	static String implementation = "gcdEuclidIterativeSlow";
 
 	private static void run(InputStream in, PrintStream out) {
 		Scanner scan = new Scanner(in);
