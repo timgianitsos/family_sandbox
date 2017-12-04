@@ -51,7 +51,7 @@ class GreatestCommonDivisor {
 	 * What does this mean? When the SIZE of a number only increases by one digit, the 
 	 * amount of work required to process it is DOUBLED. This is the definition of O(2^n)
 	 */
-	private static int gcdExponential(int a, int b) {
+	static int gcdExponential(int a, int b) {
 		int divisor = 0;
 		for (int i = 1; i <= Math.min(a, b); i++) {
 			if (a % i == 0 && b % i == 0) {
@@ -87,7 +87,7 @@ class GreatestCommonDivisor {
 	 * a and b with smaller and smaller numbers. When the numbers are the same, the problem can't be 
 	 * simplified anymore, and we have our answer for the GCD - namely, the number we are left with.
 	 */
-	private static int gcdEuclidIterativeSlow(int a, int b) {
+	static int gcdEuclidIterativeSlow(int a, int b) {
 		while (a != b) {
 			int difference = Math.max(a, b) - Math.min(a, b);
 			a = Math.min(a, b);
@@ -96,15 +96,125 @@ class GreatestCommonDivisor {
 		return a;
 	}
 
-	private static int gcdEuclidRecursiveSlow(int a, int b) {
-		return 0;
+	/*
+	 * Recursion can be used to simplify an instance of a hard problem into a simpler 
+	 * version of itself
+	 */
+	static int gcdEuclidRecursiveSlow(int a, int b) {
+		return (a != b ? gcdEuclidRecursiveSlow(Math.min(a, b), Math.max(a, b) - Math.min(a, b)) : a);
 	}
 
-	private static int gcdEuclidIterativeFast(int a, int b) {
-		return 0;
+	/*
+	 * We can improve this algorithm. Observe the following example: gcd(6, 124).
+	 * The first several steps look like this:
+	 * gcd(6, 124) == gcd(6, 118) == gcd(6, 112) == gcd(6, 106) == gcd(6, 100) ...
+	 * Our algorithm gets the difference between "a" and "b", and chooses the smallest two numbers 
+	 * from the triple [a, b, a - b]. In our example, "b" is so much less than "a", that "a" keeps 
+	 * getting replaced with a - b over and over. 
+	 *
+	 * Eventually the sequence looks like this:
+	 * ... gcd(6, 22) == gcd(6, 16) == gcd(6, 10) == gcd(6, 4)
+	 * The sequence only gets interesting when a - b is less then both a and b. Up until that point, 
+	 * we see that a - b is between a and b over and over again.
+	 *
+	 * Finally, the algorithm concludes:
+	 * gcd(6, 4) == gcd(2, 4) == gcd(2, 2) == 2
+	 * 
+	 * We know that if we have gcd(6, 124) that we are going to keep subtracting 6 from 124 until 
+	 * that number is less than 6. We can immediately go to the case where the number is less than 6 
+	 * by using modulus: 124 % 6 == 4. This takes us directly to the case where a - b is less than 
+	 * both a and b. We can avoid repeated subtraction by using modulus. So when starting with 
+	 * gcd(6, 124), we can go directly to gcd(6, 4).
+	 *
+	 * The sequence using modulus looks like this:
+	 * gcd(6, 124) == gcd(124, 6) == gcd(6, 4) == gcd(4, 2) == gcd(2, 0) == 2
+	 * This took only 6 steps - a large improvement over what previously took 24 steps.
+	 * We stop iterating whenever b is 0.
+	 *
+	 * The fast versions of Euclid's algorithm are O(n) on the SIZE of the smaller number, 
+	 * and O(log n) on the VALUE of the smaller number.
+	 */
+	static int gcdEuclidIterativeFast(int a, int b) {
+		while (a != 0 && b != 0) {
+			int difference = Math.max(a, b) % Math.min(a, b);
+			a = Math.min(a, b);
+			b = difference;
+		}
+		return Math.max(a, b);
 	}
 
-	private static int gcdEuclidRecursiveFast(int a, int b) {
-		return 0;
+	/*
+	 * Recursion can be used to simplify an instance of a hard problem into a simpler 
+	 * version of itself
+	 */
+	static int gcdEuclidRecursiveFast(int a, int b) {
+		return a != 0 && b != 0 ? gcdEuclidRecursiveFast(Math.max(a, b) % Math.min(a, b), Math.min(a, b)) : Math.max(a, b);
 	}
+
+	/*
+	 * Method to implement Binary Euclid Algorithm, also known as Stein's Algorithm
+	 * Use this method to test against other implementations of Euclid's algorithm
+	 * Obtained from http://www.geeksforgeeks.org/steins-algorithm-for-finding-gcd/
+	 * This has the same computational complexity as Euclid's algorithm, but uses 
+	 * bit shifting instead of modular arithmetic with the intention of performance 
+	 * improvements. In practice it may be slower if the appropriate intrinsic bitwise 
+	 * instructions aren't utilized however.
+	 * https://stackoverflow.com/questions/7814571/why-is-the-binary-gcd-algorithm-so-much-slower-for-me
+	 * https://hbfs.wordpress.com/2013/12/10/the-speed-of-gcd/
+	 * https://lemire.me/blog/2013/12/26/fastest-way-to-compute-the-greatest-common-divisor/
+	 * https://en.wikipedia.org/wiki/Intrinsic_function
+	 */
+	static int gcdEuclidBinary(int a, int b)
+	{
+		/* GCD(0, b) == b; GCD(a,0) == a, GCD(0,0) == 0 */
+		if (a == 0)
+			return b;
+		if (b == 0)
+			return a;
+
+		/*Finding K, where K is the greatest power of 2
+		  that divides both a and b. */
+		int k;
+		for (k = 0; ((a | b) & 1) == 0; ++k) {
+			a >>= 1;
+			b >>= 1;
+		}
+
+		/* Dividing a by 2 until a becomes odd */
+		while ((a & 1) == 0)
+			a >>= 1;
+
+		/* From here on, 'a' is always odd. */
+		do {
+			/* If b is even, remove all factor of 2 in b */
+			while ((b & 1) == 0)
+				b >>= 1;
+
+			/* Now a and b are both odd. Swap if necessary
+			   so a <= b, then set b = b - a (which is even).*/
+			if (a > b) {
+				//swap a and b
+				a = a ^ b;
+				b = b ^ a;
+				a = a ^ b;
+			}
+
+			b = (b - a);
+		} while (b != 0);
+
+		/* restore common factors of 2 */
+		return a << k;
+	}
+
+	/*
+	 * Found on internet
+	 */
+	// static int gcdEuclidIterativeFast(int a, int b) {
+	// 	while (b != 0) {
+	// 		int remainder = a % b;
+	// 		a = b;
+	// 		b = remainder;
+	// 	}
+	// 	return a;
+	// }
 }
