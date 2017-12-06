@@ -17,14 +17,15 @@ class BirthdayCakeCandles {
 		int bigCandle = Integer.MIN_VALUE;
 		int counter = 0;
 		for (int i = 0; i < arr.length; i++) {
-			if (i > bigCandle) {
-				bigCandle = i;
-				counter++;
+			if (arr[i] > bigCandle) {
+				bigCandle = arr[i];
+				counter = 1;
 			}
 			
-			else if (i == bigCandle) {
+			else if (arr[i] == bigCandle) {
 				counter++;
 			}
 		}
+		out.println(counter);
 	}
 }
