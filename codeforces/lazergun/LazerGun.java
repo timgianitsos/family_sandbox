@@ -11,8 +11,8 @@ class LazerGun {
 	private static void run(InputStream in, PrintStream out) {
 		Scanner scan = new Scanner(in);
 		int n = scan.nextInt();
-		int myX = scan.nextInt();
-		int myY = scan.nextInt();
+		double myX = scan.nextInt();
+		double myY = scan.nextInt();
 		int[] enemyX = new int[n]; 
 		int[] enemyY = new int[n];
 		for (int i = 0; i < n; i++) {
@@ -22,12 +22,11 @@ class LazerGun {
 		scan.nextLine();
 		scan.close();
 
-		Set<Integer> slopes = new HashSet<>(); 
+		Set<Double> slopes = new HashSet<>(); 
 
 		for (int i = 0; i < enemyX.length; i++) {
 			if ((myX - enemyX[i]) != 0) {
-				int eSlope = (myY - enemyY[i]) / (myX - enemyX[i]);
-out.println("eSlope: " + eSlope);
+				double eSlope = (myY - enemyY[i]) / (myX - enemyX[i]);
 				slopes.add(eSlope);
 			}
 			else {
