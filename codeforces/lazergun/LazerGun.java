@@ -11,8 +11,8 @@ class LazerGun {
 	private static void run(InputStream in, PrintStream out) {
 		Scanner scan = new Scanner(in);
 		int n = scan.nextInt();
-		double myX = scan.nextInt();
-		double myY = scan.nextInt();
+		int myX = scan.nextInt();
+		int myY = scan.nextInt();
 		int[] enemyX = new int[n]; 
 		int[] enemyY = new int[n];
 		for (int i = 0; i < n; i++) {
@@ -22,18 +22,28 @@ class LazerGun {
 		scan.nextLine();
 		scan.close();
 
-		Set<Double> slopes = new HashSet<>(); 
+		Set<Fraction> slopes = new HashSet<>(); 
 
 		for (int i = 0; i < enemyX.length; i++) {
 			if ((myX - enemyX[i]) != 0) {
-				double eSlope = (myY - enemyY[i]) / (myX - enemyX[i]);
-				slopes.add(eSlope);
+				Fraction fract = new Fraction((myY - enemyY[i]), (myX - enemyX[i]));
+				slopes.add(fract);
 			}
 			else {
 				slopes.add(null);
 			}
 		}
 		out.println(slopes.size());
+	}
+
+	static class Fraction {
+		private final int numerator;
+		private final int denominator;
+
+		Fraction(int numerator, int denominator) {
+			this.numerator = numerator;
+			this.denominator = denominator;
+		}
 	}
 }
 
