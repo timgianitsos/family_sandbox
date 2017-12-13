@@ -22,8 +22,7 @@ class LazerGun {
 		scan.nextLine();
 		scan.close();
 
-		Set<Fraction> slopes = new HashSet<>(); 
-
+		Set<Fraction> slopes = new HashSet<>();
 		for (int i = 0; i < enemyX.length; i++) {
 			if ((myX - enemyX[i]) != 0) {
 				Fraction fract = new Fraction((myY - enemyY[i]), (myX - enemyX[i]));
@@ -41,8 +40,20 @@ class LazerGun {
 		private final int denominator;
 
 		Fraction(int numerator, int denominator) {
+			int gcd = gcd(numerator, denominator);
+			numerator = numerator / gcd;
+			denominator = denominator / gcd;
 			this.numerator = numerator;
 			this.denominator = denominator;
+		}
+
+		private static int gcd(int a, int b) {
+			while (b != 0) {
+				int remainder = a % b;
+				a = b;
+				b = remainder;
+			}
+			return a;
 		}
 	}
 }
