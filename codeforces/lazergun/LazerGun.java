@@ -47,6 +47,23 @@ class LazerGun {
 			this.denominator = denominator;
 		}
 
+		@Override
+		public boolean equals(Object o) {
+			if (o == null || !(o instanceof Fraction)) {
+				return false;
+			}
+			Fraction other = (Fraction) o;
+			if (other.numerator == this.numerator && other.denominator == this.denominator) {
+				return true;
+			}
+			return false;
+		}
+		//TODO hashcode override
+		@Override
+		public int hashCode() {
+			throw new UnsupportedOperationException();
+		}
+
 		private static int gcd(int a, int b) {
 			while (b != 0) {
 				int remainder = a % b;
