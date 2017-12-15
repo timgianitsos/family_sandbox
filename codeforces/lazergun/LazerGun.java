@@ -58,10 +58,11 @@ class LazerGun {
 			}
 			return false;
 		}
-		//TODO hashcode override
+
 		@Override
 		public int hashCode() {
-			throw new UnsupportedOperationException();
+			int hash = ((int)Math.pow(this.numerator, 5) + (int)Math.pow(this.denominator, 13)) * (12 - (5 * numerator)) - (denominator * 12);
+			return hash;
 		}
 
 		private static int gcd(int a, int b) {
