@@ -11,11 +11,56 @@ javac -cp "./:../../" TestFactor.java && java -cp "./:../../" TestFactor
 
 class TestFactor {
 	public static void main(String args[]) throws Exception {
-		tests();
+		simplifyFractionTests();
+		gcdTests();
 		timeTrials();
 	}
 
-	private static void tests() throws Exception {
+	private static void simplifyFractionTests() throws Exception {
+		System.out.println();
+		{
+			String input = "6 / 8\n";
+			String expectedOutput = "3 / 4\n";
+			Method m = SimplifyFraction.class.getDeclaredMethod("run", InputStream.class, PrintStream.class);
+			TestHarness.test(input, expectedOutput, m);
+		}
+		{
+			String input = "7 / 9\n";
+			String expectedOutput = "7 / 9\n";
+			Method m = SimplifyFraction.class.getDeclaredMethod("run", InputStream.class, PrintStream.class);
+			TestHarness.test(input, expectedOutput, m);
+		}
+		{
+			for (int i = 2; i < 27; i++) {
+				String input = "" + (i - 1) + " / " + i + "\n";
+				String expectedOutput = "" + (i - 1) + " / " + i + "\n";
+				Method m = SimplifyFraction.class.getDeclaredMethod("run", InputStream.class, PrintStream.class);
+				TestHarness.test(input, expectedOutput, m);
+			}
+		}
+		{
+			String input = "51 / 2147483647\n";
+			String expectedOutput = "51 / 2147483647\n";
+			Method m = SimplifyFraction.class.getDeclaredMethod("run", InputStream.class, PrintStream.class);
+			TestHarness.test(input, expectedOutput, m);
+		}
+		{
+			String input = "51 / 204\n";
+			String expectedOutput = "1 / 4\n";
+			Method m = SimplifyFraction.class.getDeclaredMethod("run", InputStream.class, PrintStream.class);
+			TestHarness.test(input, expectedOutput, m);
+		}
+		{
+			String input = "51 / 205\n";
+			String expectedOutput = "51 / 205\n";
+			Method m = SimplifyFraction.class.getDeclaredMethod("run", InputStream.class, PrintStream.class);
+			TestHarness.test(input, expectedOutput, m);
+		}
+		TestHarness.printResults();
+
+	}
+
+	private static void gcdTests() throws Exception {
 		{
 			String input = "25 35\n";
 			String expectedOutput = "5\n";
